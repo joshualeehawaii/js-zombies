@@ -103,15 +103,15 @@ Food.prototype = Object.create(Item.prototype,{
   this.speed = speed;
   this.isAlive = true;
   this.equipped = false;
-  var pack = [];
-  var maxHealth = health;
+  this._pack = [];
+  this._maxHealth = health;
 
   this.getPack = function(){
-    return pack;
+    return this._pack;
   };
 
   this.getMaxHealth = function(){
-    return maxHealth;
+    return this._maxHealth;
   };
  };
 
@@ -127,6 +127,9 @@ Food.prototype = Object.create(Item.prototype,{
  * @name checkPack
  */
 
+Player.prototype.checkPack = function(){
+  console.log(this.getPack());
+};
 
 /**
  * Player Class Method => takeItem(item)
@@ -146,6 +149,16 @@ Food.prototype = Object.create(Item.prototype,{
  * @return {boolean} true/false     Whether player was able to store item in pack.
  */
 
+ Player.prototype.takeItem = function(item){
+  if (this._pack.length < 3){
+    console.log(item);
+    this._pack.push(item);
+    return true;
+  } else {
+    console.log('pack is full, and item could not be stored');
+    return false;
+  }
+ };
 
 /**
  * Player Class Method => discardItem(item)
@@ -173,6 +186,17 @@ Food.prototype = Object.create(Item.prototype,{
  * @return {boolean} true/false     Whether player was able to remove item from pack.
  */
 
+ Player.prototype.discardItem = function(item){
+  var itemIndex = this._pack.indexOf(item);
+  if (itemIndex >= 1){
+    this._pack.splice(itemIndex,1);
+    console.log(this.name + ' ' + item + ' was discarded');
+    return true;
+  } else {
+    console.log('nothing was discarded since item could not be found');
+    return false;
+  }
+ };
 
 /**
  * Player Class Method => equip(itemToEquip)
