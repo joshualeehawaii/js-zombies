@@ -218,6 +218,16 @@ Player.prototype.checkPack = function(){
  * @param {Weapon} itemToEquip  The weapon item to equip.
  */
 
+Player.prototype.equip = function(itemToEquip){
+  if (this.equipped === true){
+    //swap items
+  }
+  if (itemToEquip === Weapon){
+    return true;
+  } else {
+    return false;
+  }
+};
 
 /**
  * Player Class Method => eat(itemToEat)
