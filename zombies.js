@@ -82,6 +82,34 @@ class Food extends Item {
  * @property {method} getMaxHealth         Returns private variable `maxHealth`.
  */
 
+ class Player {
+  constructor(name, health, strength, speed){
+  this.name = name;
+  this.health = health;
+  this.strength = strength;
+  this.speed = speed;
+  this.isAlive = true;
+  this.equipped = false;
+  this._pack = [];
+  this._maxHealth = health;
+  }
+  getPack(){
+    return this._pack;
+  }
+  getMaxHealth(){
+    return this._maxHealth;
+  }
+  takeItem(item){
+    if (this._pack.length < 3){
+    console.log(item);
+    this._pack.push(item);
+    return true;
+    } else {
+      console.log('pack is full, and item could not be stored');
+      return false;
+    }
+  }
+}
 
 /**
  * Player Class Method => checkPack()
@@ -93,25 +121,6 @@ class Food extends Item {
  * You should be able to invoke this function on a Player instance.
  *
  * @name checkPack
- */
-
-
-/**
- * Player Class Method => takeItem(item)
- * -----------------------------
- * Player takes an item from the world and places it into their pack.
- *
- * Player's pack can only hold a maximum of 3 items, so if they try to add more
- *   than that to the pack, return false.
- * Before returning true or false, print a message containing the player's
- *   name and item's name if successful.  Otherwise, print a message saying
- *   that the pack is full so the item could not be stored.
- * Note: The player is allowed to store similar items (items with the same name).
- * You should be able to invoke this function on a Player instance.
- *
- * @name takeItem
- * @param {Item/Weapon/Food} item   The item to take.
- * @return {boolean} true/false     Whether player was able to store item in pack.
  */
 
 
