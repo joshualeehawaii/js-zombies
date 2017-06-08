@@ -30,12 +30,15 @@ class Food extends Item {
   this._pack = [];
   this._maxHealth = health;
   }
+  //Return what is in pack
   getPack(){
     return this._pack;
   }
+  //Get Max Health
   getMaxHealth(){
     return this._maxHealth;
   }
+  //take Item
   takeItem(item){
     if (this._pack.length < 3){
     console.log(item);
@@ -46,9 +49,10 @@ class Food extends Item {
       return false;
     }
   }
+  //Discard Item
   discardItem(item){
   var itemIndex = this._pack.indexOf(item);
-  if (itemIndex >= 1){
+  if (itemIndex !== -1){
     this._pack.splice(itemIndex,1);
     console.log(this.name + ' ' + item + ' was discarded');
     return true;
@@ -57,7 +61,54 @@ class Food extends Item {
       return false;
     }
   }
-  //add ==> checkPack(), equip(itemToEquip), eat(itemToEat), useItem(item), equippedWith()
+  //Check Pack
+  checkPack(){
+    console.log(this.getPack());
+  }
+  //Equip Item
+  equip(itemToEquip){
+    var itemIndex = this.getPack().indexOf(itemToEquip);
+    if (itemToEquip instanceof Weapon){
+      if (itemIndex !== -1){
+        if (this.equipped === false){
+          this.equipped = itemToEquip;
+          this.discardItem(itemToEquip);
+        } else{
+          this.getPack().splice(itemIndex, 1, this.equipped);
+          this.equipped = itemToEquip;
+        }
+      }
+    }
+  }
+  //Eat Item
+  eat(itemToEat){
+    var itemIndex = this.getPack().indexOf(itemToEat);
+    if (itemToEat instanceof Food){
+      if (itemIndex !== -1){
+        this.discardItem(itemToEat);
+        this.health = this.getMaxHealth();
+      }
+    }
+  }
+  //Use Item
+  useItem(item){
+    if (item instanceof Weapon){
+      this.equip(item);
+    }
+    if (item instanceof Food){
+      this.eat(item);
+    }
+  }
+  //Equiped with
+  equippedWith(){
+    if (this.equipped === false){
+      console.log(this.name, ' Nothing is Equiped');
+      return false;
+    } else {
+      console.log (this.name, ' is equipped with ', this.equipped.name);
+      return this.equipped.name;
+    }
+  }
 }
 //Class Zombie
 class Zombie {
@@ -93,9 +144,6 @@ class ExplodingZombie extends Zombie {
   super(health, strength, speed);
   }
 }
-
-
-
 
 /**
  * Sample run.
