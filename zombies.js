@@ -53,13 +53,12 @@ class Item {
  * @property {number} energy
  */
 
-
-/**
- * Food Extends Item Class
- * -----------------------------
- */
-
-
+class Food extends Item {
+  constructor(name, energy){
+    super(name);
+    this.energy = energy;
+  }
+ }
 
 /**
  * Class => Player(name, health, strength, speed)
