@@ -8,9 +8,9 @@
  * @property {string} name
  */
 
-var Item = function(name){
+function Item(name){
   this.name = name;
-};
+}
 
 /**
  * Class => Weapon(name, damage)
@@ -28,11 +28,11 @@ var Item = function(name){
  * @property {number} damage
  */
 
-var Weapon = function(name, damage){
+function Weapon(name, damage){
   this.name = name;
   this.damage = damage;
   Item.call(this, name);
-};
+}
 
 /**
  * Weapon Extends Item Class
@@ -59,11 +59,11 @@ Weapon.prototype = Object.create(Item.prototype,{
  * @property {number} energy
  */
 
- var Food = function(name, energy){
+ function Food(name, energy){
   this.name = name;
   this.energy = energy;
   Item.call(this, name);
- };
+ }
 
 /**
  * Food Extends Item Class
@@ -219,13 +219,10 @@ Player.prototype.checkPack = function(){
  */
 
 Player.prototype.equip = function(itemToEquip){
-  if (this.equipped === true){
-    //swap items
-  }
+  var weaponIndex = this.getPack().indexOf(itemToEquip);
+
   if (itemToEquip === Weapon){
-    return true;
-  } else {
-    return false;
+
   }
 };
 
