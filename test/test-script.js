@@ -385,8 +385,11 @@ describe('Player', function() {
       var player = new Player("Lee", 100, 15, 7);
       var crossbow = new Weapon("Crossbow", 35);
 
+      console.log('before takeItem =', player.getPack());
       player.takeItem(crossbow);
+      console.log('before discard =', player.getPack());
       player.discardItem(crossbow);
+      console.log('after discard =', player.getPack());
       player.useItem(crossbow);
       player.equippedWith().should.equal(false);
     });
