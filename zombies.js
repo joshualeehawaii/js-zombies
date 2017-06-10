@@ -85,18 +85,29 @@ class Food extends Item {
     var itemIndex = this.getPack().indexOf(itemToEat);
     if (itemToEat instanceof Food){
       if (itemIndex !== -1){
-        this.discardItem(itemToEat);
-        this.health = this.getMaxHealth();
+        this.getPack().splice(itemIndex, 1);
+        this.health += itemToEat.energy;
+      }
+      if (this.health >= this._maxHealth){
+        this.health = this._maxHealth;
+        } else {
+        return false;
       }
     }
   }
+
+
   //Use Item
   useItem(item){
+    var itemToUse = this.getPack().indexOf(item);
+
     if (item instanceof Weapon){
       this.equip(item);
     }
     if (item instanceof Food){
       this.eat(item);
+    } else {
+      return false;
     }
   }
   //Equiped with
