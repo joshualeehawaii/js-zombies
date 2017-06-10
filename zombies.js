@@ -188,15 +188,15 @@ Player.prototype.checkPack = function(){
 
  Player.prototype.discardItem = function(item){
   var itemIndex = this._pack.indexOf(item);
-  if (itemIndex >= 1){
-    this._pack.splice(itemIndex,1);
-    console.log(this.name + ' ' + item + ' was discarded');
-    return true;
-  } else {
-    console.log('nothing was discarded since item could not be found');
-    return false;
-  }
- };
+  if (itemIndex !== -1){
+   this._pack.splice(itemIndex,1);
+   console.log(this.name + ' ' + item + ' was discarded');
+   return true;
+   } else {
+     console.log('nothing was discarded since item could not be found');
+     return false;
+   }
+};
 
 /**
  * Player Class Method => equip(itemToEquip)
@@ -219,10 +219,19 @@ Player.prototype.checkPack = function(){
  */
 
 Player.prototype.equip = function(itemToEquip){
-  var weaponIndex = this.getPack().indexOf(itemToEquip);
-
-  if (itemToEquip === Weapon){
-
+  var itemIndex = this.getPack().indexOf(itemToEquip);
+    if (itemToEquip instanceof Weapon){
+      if (itemIndex !== -1){
+        if (this.equipped !== false){
+          this.getPack().splice(itemIndex, 1, this.equipped);
+          this.equipped = itemToEquip;
+        } else if (itemToEquip instanceof Weapon && this.equipped === false){
+         this.getPack().splice(itemIndex, 1);
+         this.equipped = itemToEquip;
+      } else {
+        return false;
+      }
+    }
   }
 };
 
@@ -246,11 +255,18 @@ Player.prototype.equip = function(itemToEquip){
  */
 
  Player.prototype.eat =  function(itemToEat){
-  if (itemToEat !== Food){
-    return false;
-  } else {
-
-  }
+  var itemIndex = this.getPack().indexOf(itemToEat);
+    if (itemToEat instanceof Food){
+      if (itemIndex !== -1){
+        this.getPack().splice(itemIndex, 1);
+        this.health += itemToEat.energy;
+      }
+      if (this.health >= this._maxHealth){
+        this.health = this._maxHealth;
+        } else {
+        return false;
+      }
+    }
  };
 
 /**
@@ -267,15 +283,15 @@ Player.prototype.equip = function(itemToEquip){
  */
 
  Player.prototype.useItem = function(item){
-  if (item === Weapon){
-    //equip(item);
-    return true;
-  } else if (item === Food){
-    //eat(item);
-    return true;
-  } else {
-    return false;
-  }
+  var itemToUse = this.getPack().indexOf(item);
+    if (item instanceof Weapon){
+      this.equip(item);
+    }
+    if (item instanceof Food){
+      this.eat(item);
+    } else {
+      return false;
+    }
  };
 
 /**
@@ -293,8 +309,14 @@ Player.prototype.equip = function(itemToEquip){
  */
 
  Player.prototype.equippedWith = function(){
-  //return weapon name
-  return false;
+  console.log('**** =', this.equipped);
+  if (this.equipped === false){
+      console.log(this.name, + ' Nothing is Equiped');
+      return false;
+    } else {
+      console.log (this.name, ' is equipped with ', + this.equipped.name);
+      return this.equipped.name;
+    }
  };
 
 /**
